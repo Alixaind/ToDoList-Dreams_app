@@ -12,6 +12,16 @@
   </style>
 </head>
 <body class="bg-gray-50 min-h-screen font-sans text-gray-800">
+	
+	<!-- Banner Install -->
+  <div id="installBanner" class="hidden bg-green-100 border border-green-300 p-3 flex justify-between items-center">
+    <span class="text-sm text-green-800">Rekomendasi: Install di layar utama</span>
+    <div class="flex gap-2">
+      <button id="installBtn" class="bg-green-500 text-white text-xs px-3 py-1 rounded">Install di layar utama</button>
+      <button id="closeBanner" class="text-green-700 font-bold">✕</button>
+    </div>
+  </div>
+  
   <div class="max-w-5xl mx-auto p-4 sm:p-6">
     <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-3">
       <div>
@@ -194,6 +204,27 @@
     });
 
     render();
+    
+    
+    // Banner install PWA
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt',(e)=>{
+      e.preventDefault();
+      deferredPrompt = e;
+      document.getElementById('installBanner').classList.remove('hidden');
+    });
+    document.getElementById('installBtn').onclick=async()=>{
+      if(deferredPrompt){
+        deferredPrompt.prompt();
+        await deferredPrompt.userChoice;
+        deferredPrompt=null;
+        document.getElementById('installBanner').classList.add('hidden');
+      }
+    };
+    document.getElementById('closeBanner').onclick=()=>{
+      document.getElementById('installBanner').classList.add('hidden');
+    };
+    
 
     // register SW
     if ('serviceWorker' in navigator) {

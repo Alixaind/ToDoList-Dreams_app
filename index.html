@@ -24,6 +24,64 @@
     .fade-in-up {
       animation: fadeInUp 0.5s ease-out;
     }
+    /* Menyembunyikan input file asli */
+    #photo {
+        display: none;
+    }
+    /* Styling untuk tombol input foto */
+    .custom-file-upload {
+        display: inline-block;
+        cursor: pointer;
+        padding: 8px 12px;
+        border-radius: 9999px;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+        font-weight: 500;
+        background-color: #f3f4f6; /* bg-gray-200 */
+        color: #4b5563; /* text-gray-600 */
+        border: 1px solid #d1d5db;
+    }
+    .custom-file-upload:hover {
+        background-color: #e5e7eb; /* hover:bg-gray-300 */
+    }
+    .filter-menu {
+      position: absolute;
+      right: 0;
+      top: 100%;
+      z-index: 10;
+    }
+    /* Modal styles */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 20;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4);
+    }
+    .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 400px;
+        border-radius: 8px;
+        text-align: center;
+    }
+    .modal-priority {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 400px;
+        border-radius: 8px;
+        text-align: center;
+    }
   </style>
 </head>
 <body class="bg-gray-50 min-h-screen font-sans text-gray-800">
@@ -34,6 +92,11 @@
       <button id="installBtn" class="bg-green-500 text-white text-xs px-3 py-1 rounded">Install di layar utama</button>
       <button id="closeBanner" class="text-green-700 font-bold">✕</button>
     </div>
+  </div>
+  
+  <div id="manualInstallBanner" class="hidden bg-yellow-100 border border-yellow-300 p-3 flex justify-between items-center fade-in-up">
+    <span class="text-sm text-yellow-800">Untuk instal, klik menu browser &gt; Tambahkan ke layar utama</span>
+    <button id="closeManualBanner" class="text-yellow-700 font-bold">✕</button>
   </div>
   
   <div class="max-w-5xl mx-auto p-4 sm:p-6">
@@ -55,7 +118,8 @@
 
           <div>
             <label class="text-sm text-gray-600">Harga</label>
-            <input id="price" type="number" class="w-full mt-1 p-2 border rounded" placeholder="50000" />
+            <input id="price" type="text" class="w-full mt-1 p-2 border rounded" placeholder="Rp. 50.000" />
+            <input id="rawPrice" type="hidden" />
           </div>
 
           <div>
@@ -69,8 +133,13 @@
 
           <div>
             <label class="text-sm text-gray-600">Foto (opsional)</label>
-            <input id="photo" type="file" accept="image/*" class="block mt-2" />
-            <img id="photoPreview" class="mt-2 rounded max-h-40 object-contain hidden border" alt="preview" />
+            
+            <div class="flex flex-col items-start space-y-3">
+              <img id="photoPreview" class="mt-2 rounded max-h-40 object-contain hidden border size-20" alt="preview" />
+              <label for="photo" class="custom-file-upload">Pilih Foto</label>
+              <input id="photo" type="file" accept="image/*" />
+            </div>
+            
           </div>
 
           <div class="flex gap-2">
@@ -81,7 +150,7 @@
       </section>
 
       <section class="md:col-span-2">
-        <div class="flex justify-end mb-3 gap-2">
+        <div class="flex justify-end mb-3 gap-2 relative">
           <button id="filterBtn" class="p-2 border rounded-lg" title="Filter">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h18M6 12h12M10 20h4"/>
@@ -93,6 +162,14 @@
             </svg>
           </button>
           <button id="exportBtn" class="p-2 border rounded-lg text-sm bg-teal-500 text-white">TXT</button>
+          
+          <div id="filterMenu" class="filter-menu hidden bg-white border border-gray-200 rounded-lg shadow-lg w-40">
+              <button class="filter-option block w-full text-left px-4 py-2 hover:bg-gray-100 rounded-t-lg" data-filter="default">Tampilkan semua</button>
+              <button class="filter-option block w-full text-left px-4 py-2 hover:bg-gray-100" data-filter="termahal">Termahal</button>
+              <button class="filter-option block w-full text-left px-4 py-2 hover:bg-gray-100" data-filter="termurah">Termurah</button>
+              <button class="filter-option block w-full text-left px-4 py-2 hover:bg-gray-100" data-filter="penting">Penting dulu</button>
+              <button class="filter-option block w-full text-left px-4 py-2 hover:bg-gray-100 rounded-b-lg" data-filter="urgent">Realisasi dulu</button>
+          </div>
         </div>
 
         <div class="card p-4 rounded-xl shadow">
@@ -102,11 +179,51 @@
             <button id="clearAll" class="px-3 py-2 border rounded text-sm text-red-600">Hapus Semua</button>
             <div class="ml-auto text-sm text-gray-500" id="count">0 item</div>
           </div>
+          
+          <div class="mt-4 pt-4 border-t border-gray-200">
+              <div class="flex justify-between text-sm text-gray-700">
+                  <span>Total Belum Direalisasikan:</span>
+                  <span id="unrealizedTotal" class="font-semibold">Rp. 0</span>
+              </div>
+              <div class="flex justify-between text-sm text-gray-700">
+                  <span>Total Sudah Direalisasikan:</span>
+                  <span id="realizedTotal" class="font-semibold">Rp. 0</span>
+              </div>
+              <div class="flex justify-between font-bold text-gray-800 mt-2">
+                  <span>Total Keseluruhan:</span>
+                  <span id="grandTotal">Rp. 0</span>
+              </div>
+          </div>
+          
         </div>
       </section>
     </main>
 
     <footer class="text-center text-xs text-gray-400 mt-6">Made minimalist • Works offline • PWA-ready</footer>
+  </div>
+  
+  <div id="actionModal" class="modal">
+      <div class="modal-content">
+          <h3 class="font-semibold mb-4">Pilih Aksi</h3>
+          <div class="space-y-2">
+              <button id="terealisasiBtn" class="w-full bg-green-500 text-white px-4 py-2 rounded">Terealisasikan</button>
+              <button id="changePriorityBtn" class="w-full bg-blue-500 text-white px-4 py-2 rounded">Ganti Prioritas</button>
+              <button id="hapusBtn" class="w-full bg-red-500 text-white px-4 py-2 rounded">Hapus</button>
+              <button id="closeActionModalBtn" class="w-full mt-2 px-4 py-2 border rounded">Batal</button>
+          </div>
+      </div>
+  </div>
+  
+  <div id="priorityModal" class="modal">
+      <div class="modal-priority">
+          <h3 class="font-semibold mb-4">Pilih Prioritas Baru</h3>
+          <div class="space-y-2">
+              <button class="priority-option w-full px-4 py-2 border rounded" data-priority="urgent">Realisasi dulu</button>
+              <button class="priority-option w-full px-4 py-2 border rounded" data-priority="important">Penting</button>
+              <button class="priority-option w-full px-4 py-2 border rounded" data-priority="normal">Biasa</button>
+          </div>
+          <button id="closePriorityModalBtn" class="w-full mt-4 px-4 py-2 border rounded">Batal</button>
+      </div>
   </div>
 
   <script>
@@ -114,53 +231,91 @@
     const listEl = document.getElementById('list');
     const photoInput = document.getElementById('photo');
     const photoPreview = document.getElementById('photoPreview');
+    const priceInput = document.getElementById('price');
+    const rawPriceInput = document.getElementById('rawPrice');
+    const installBanner = document.getElementById('installBanner');
+    const manualInstallBanner = document.getElementById('manualInstallBanner');
+    const filterBtn = document.getElementById('filterBtn');
+    const filterMenu = document.getElementById('filterMenu');
+    const actionModal = document.getElementById('actionModal');
+    const priorityModal = document.getElementById('priorityModal');
+    let currentItemIndex = null; // Menyimpan index item yang sedang dipilih
 
-    // render list
-    function render() {
+    // Fungsi untuk memperbarui total pengeluaran
+    function updateTotals() {
+        let unrealizedTotal = 0;
+        let realizedTotal = 0;
+        
+        todos.forEach(item => {
+            const price = Number(item.price) || 0;
+            if (item.done) {
+                realizedTotal += price;
+            } else {
+                unrealizedTotal += price;
+            }
+        });
+        
+        const grandTotal = unrealizedTotal + realizedTotal;
+        
+        document.getElementById('unrealizedTotal').textContent = `Rp. ${unrealizedTotal.toLocaleString('id-ID')}`;
+        document.getElementById('realizedTotal').textContent = `Rp. ${realizedTotal.toLocaleString('id-ID')}`;
+        document.getElementById('grandTotal').textContent = `Rp. ${grandTotal.toLocaleString('id-ID')}`;
+    }
+
+    // render list - REFACTOR: sekarang menerima array sebagai argumen
+    function render(itemsToRender) {
       listEl.innerHTML = '';
-      todos.forEach((t, i) => {
+      itemsToRender.forEach((t) => {
         const li = document.createElement('li');
-        li.className = "p-3 border rounded-lg bg-white flex items-start gap-3";
+        li.className = "p-3 border rounded-lg bg-white flex items-start gap-3 cursor-pointer";
+        li.dataset.index = todos.indexOf(t);
+        
+        // Format harga dengan Rp. dan pemisah titik
+        const formattedPrice = t.price ? `Rp. ${Number(t.price).toLocaleString('id-ID')}` : '';
+        
+        let doneClass = '';
+        if (t.done) {
+            doneClass = `line-through opacity-60`;
+        }
 
         li.innerHTML = `
           ${t.photo ? `<img src="${t.photo}" class="w-16 h-16 object-cover rounded border">` : ''}
-          <div class="flex-1">
+          <div class="flex-1 ${doneClass}">
             <h3 class="font-semibold">${t.title}</h3>
-            <p class="text-sm text-gray-600">Rp ${t.price}</p>
+            <p class="text-sm text-gray-600">${formattedPrice}</p>
             ${t.done ? `<span class="inline-block mt-1 px-2 py-1 text-xs font-bold text-white bg-green-600 rounded">Terealisasikan</span>` : ''}
             ${t.priority !== 'normal' ? `<span class="inline-block mt-1 px-2 py-1 text-xs font-medium rounded bg-yellow-200 text-yellow-800">${t.priority}</span>` : ''}
           </div>
-          <div class="flex flex-col gap-2 items-end">
-            <input type="checkbox" ${t.done?'checked':''} class="checkBtn">
-            <button class="text-red-500 text-sm deleteBtn">Hapus</button>
-          </div>
         `;
 
-        li.querySelector('.checkBtn').onchange = (e)=>{
-          todos[i].done = e.target.checked;
-          save();
+        li.onclick = (e) => {
+            currentItemIndex = e.currentTarget.dataset.index;
+            actionModal.style.display = 'block';
         };
-        li.querySelector('.deleteBtn').onclick = ()=>{
-          todos.splice(i,1); save();
-        };
+
         listEl.appendChild(li);
       });
       document.getElementById('count').textContent = `${todos.length} item`;
+      updateTotals();
     }
 
     function save(){
       localStorage.setItem('todos', JSON.stringify(todos));
-      render();
+      render(todos); // Gunakan array asli
     }
 
+    // Mengubah perilaku form submit
     document.getElementById('itemForm').onsubmit = e=>{
       e.preventDefault();
       const title = document.getElementById('title').value.trim();
-      const price = document.getElementById('price').value.trim();
+      const price = rawPriceInput.value.trim(); // Ambil harga mentah dari hidden input
       const priority = document.getElementById('priority').value;
       if(title){
         todos.push({title, price, priority, done:false, photo: photoPreview.src || ''});
-        e.target.reset(); photoPreview.classList.add('hidden'); photoPreview.src='';
+        e.target.reset(); 
+        photoPreview.classList.add('hidden'); 
+        photoPreview.src='';
+        rawPriceInput.value = '';
         save();
       }
     };
@@ -168,10 +323,23 @@
     document.getElementById('clearBtn').onclick=()=>{
       document.getElementById('itemForm').reset();
       photoPreview.classList.add('hidden');
+      rawPriceInput.value = '';
     };
     document.getElementById('clearAll').onclick=()=>{
       if(confirm('Hapus semua item?')){ todos=[]; save(); }
     };
+
+    // Formating harga
+    priceInput.addEventListener('input', (e) => {
+        let value = e.target.value.replace(/[^0-9]/g, ''); // Hapus semua non-digit
+        rawPriceInput.value = value; // Simpan nilai mentah di hidden input
+        
+        if (value) {
+            priceInput.value = `Rp. ${Number(value).toLocaleString('id-ID')}`;
+        } else {
+            priceInput.value = '';
+        }
+    });
 
     // photo preview
     photoInput.addEventListener('change', e => {
@@ -181,6 +349,8 @@
         reader.onload = () => {
           photoPreview.src = reader.result;
           photoPreview.classList.remove('hidden');
+          photoPreview.classList.remove('size-20');
+          photoPreview.classList.add('max-h-40');
         };
         reader.readAsDataURL(file);
       }
@@ -214,33 +384,136 @@
       }
     });
 
-    render();
-    
-    
-    // Banner install PWA
-    let deferredPrompt;
-    window.addEventListener('beforeinstallprompt',(e)=>{
-      e.preventDefault();
-      deferredPrompt = e;
-      document.getElementById('installBanner').classList.remove('hidden');
-    });
-    document.getElementById('installBtn').onclick=async()=>{
-      if(deferredPrompt){
-        deferredPrompt.prompt();
-        await deferredPrompt.userChoice;
-        deferredPrompt=null;
-        document.getElementById('installBanner').classList.add('hidden');
-      }
-    };
-    document.getElementById('closeBanner').onclick=()=>{
-      document.getElementById('installBanner').classList.add('hidden');
-    };
-    
+    // === Tambahan Kode untuk Filter ===
 
+    filterBtn.addEventListener('click', (e) => {
+        filterMenu.classList.toggle('hidden');
+        e.stopPropagation();
+    });
+
+    document.querySelectorAll('.filter-option').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const filterType = e.target.dataset.filter;
+            let filteredTodos = [...todos]; // Buat salinan array
+
+            switch(filterType) {
+                case 'termahal':
+                    filteredTodos.sort((a, b) => Number(b.price) - Number(a.price));
+                    break;
+                case 'termurah':
+                    filteredTodos.sort((a, b) => Number(a.price) - Number(b.price));
+                    break;
+                case 'penting':
+                    filteredTodos = filteredTodos.sort((a, b) => {
+                        const priorityOrder = { 'urgent': 3, 'important': 2, 'normal': 1 };
+                        return priorityOrder[b.priority] - priorityOrder[a.priority];
+                    });
+                    filteredTodos = filteredTodos.filter(item => item.priority === 'important');
+                    break;
+                case 'urgent': 
+                    filteredTodos = filteredTodos.sort((a, b) => {
+                        const priorityOrder = { 'urgent': 3, 'important': 2, 'normal': 1 };
+                        return priorityOrder[b.priority] - priorityOrder[a.priority];
+                    });
+                    filteredTodos = filteredTodos.filter(item => item.priority === 'urgent');
+                    break;
+                case 'default':
+                default:
+                    // Kembali ke tampilan default (tidak disortir)
+                    break;
+            }
+            render(filteredTodos);
+            filterMenu.classList.add('hidden'); // Sembunyikan menu setelah filter dipilih
+        });
+    });
+
+    // === Logika Modal Aksi ===
+
+    // Tombol di modal aksi
+    document.getElementById('terealisasiBtn').onclick = () => {
+        todos[currentItemIndex].done = true;
+        save();
+        actionModal.style.display = 'none';
+    };
+
+    document.getElementById('hapusBtn').onclick = () => {
+        todos.splice(currentItemIndex, 1);
+        save();
+        actionModal.style.display = 'none';
+    };
+
+    document.getElementById('changePriorityBtn').onclick = () => {
+        actionModal.style.display = 'none';
+        priorityModal.style.display = 'block';
+    };
+    
+    // Tombol di modal ganti prioritas
+    document.querySelectorAll('.priority-option').forEach(button => {
+        button.onclick = (e) => {
+            const newPriority = e.target.dataset.priority;
+            todos[currentItemIndex].priority = newPriority;
+            save();
+            priorityModal.style.display = 'none';
+        };
+    });
+
+    // Tombol tutup modal
+    document.getElementById('closeActionModalBtn').onclick = () => {
+        actionModal.style.display = 'none';
+    };
+    document.getElementById('closePriorityModalBtn').onclick = () => {
+        priorityModal.style.display = 'none';
+    };
+
+    // Tutup modal jika mengklik di luar area modal
+    window.onclick = (e) => {
+        if (e.target == actionModal) {
+            actionModal.style.display = "none";
+        }
+        if (e.target == priorityModal) {
+            priorityModal.style.display = "none";
+        }
+    };
+
+    // Deteksi browser untuk banner instal PWA
+    let deferredPrompt;
+    const userAgent = navigator.userAgent;
+    const isKiwi = userAgent.includes('Kiwi');
+    const isOperaGX = userAgent.includes('OPR GX');
+    const isVia = userAgent.includes('Via');
+
+    if (isKiwi || isOperaGX || isVia) {
+        // Tampilkan banner manual untuk browser yang bermasalah
+        manualInstallBanner.classList.remove('hidden');
+        document.getElementById('closeManualBanner').onclick = () => {
+            manualInstallBanner.classList.add('hidden');
+        };
+    } else {
+        // Tampilkan banner normal untuk browser yang mendukung API
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installBanner.classList.remove('hidden');
+        });
+        document.getElementById('installBtn').onclick = async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                await deferredPrompt.userChoice;
+                deferredPrompt = null;
+                installBanner.classList.add('hidden');
+            }
+        };
+        document.getElementById('closeBanner').onclick = () => {
+            installBanner.classList.add('hidden');
+        };
+    }
+    
     // register SW
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('./service-worker.js');
     }
+
+    render(todos); // Panggil render pertama kali
   </script>
 </body>
 </html>

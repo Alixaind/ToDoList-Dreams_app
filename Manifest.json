@@ -1,7 +1,8 @@
 {
   "name": "ToDo Minimalist",
   "short_name": "ToDo",
-  "start_url": "/index.html",
+  "start_url": "/ToDoList-Dreams_app/index.html",
+  "scope": "/ToDoList-Dreams_app/"
   "display": "standalone",
   "background_color": "#f9fafb",
   "theme_color": "#0ea5a4",

@@ -21,8 +21,24 @@
       }
     }
     .fade-in-up {
-      animation: fadeInUp 0.5s ease-out;
+      animation: fadeInUp 0.9s ease-out;
     }
+    
+  /* CSS untuk animasi scrolling */
+  @keyframes scrollUp {
+    0% { transform: translateY(0); }
+    33% { transform: translateY(-100%); }
+    66% { transform: translateY(-200%); }
+    100% { transform: translateY(0); }
+  }
+
+  #scrolling-text-container {
+    width: 250px; /* Atur lebar sesuai kebutuhan */
+  }
+
+  #scrolling-text {
+    animation: scrollUp 10s infinite ease-in-out;
+  }
      /* Menyembunyikan input file asli */
     #photo {
         display: none;
@@ -49,16 +65,25 @@
   </style>
 </head>
 <body class="bg-gray-50 min-h-screen font-sans text-gray-800">
-	<div id="installBanner" class="hidden bg-green-100 border border-green-300 p-3 flex justify-between items-center fade-in-up">
-    <img src="icon-512.png" alt="Install App" class="w-6 h-6 rounded-full border border-green-800">
-<span class="text-sm text-yellow-800">Install App Untuk Akses Lebih cepat, tenang saja instalasi tidak akan memakan memori penyimpanan </span>
-   
-    <div class="flex gap-2">
-      <button id="installBtn" class="bg-green-500 text-white text-xs px-3 py-1 rounded">Install di layar utama</button>
-      <button id="closeBanner" class="text-green-700 font-bold">✕</button>
+	<div id="installBanner" class="hidden bg-green-100 border border-green-300 p-3 flex justify-between items-center fade-in-up overflow-hidden">
+  <div class="flex items-center gap-3">
+    <img src="icon-512.png" alt="Install App" class="w-10 h-10 rounded-full border border-green-800">
+    <div id="scrolling-text-container" class="relative h-6 overflow-hidden">
+      <div id="scrolling-text" class="absolute inset-0">
+        <p class="text-sm font-semibold">ToDo DreamList</p>
+        <p class="text-sm font-semibold mt-6">Install App Untuk Akses Lebih Cepat</p>
+        <p class="text-sm font-semibold mt-6">Tenang saja instalasi tidak akan memakan memori penyimpanan</p>
+      </div>
     </div>
   </div>
-  
+
+  <div class="flex gap-2">
+    <button id="installBtn" class="bg-green-500 text-white text-xs px-3 py-1 rounded">Install di layar utama</button>
+    <button id="closeBanner" class="text-green-700 font-bold">✕</button>
+  </div>
+</div>
+
+
   <div id="manualInstallBanner" class="hidden bg-yellow-100 border border-yellow-300 p-3 flex justify-between items-center fade-in-up">
     <span class="text-sm text-yellow-800">Untuk instal, klik menu browser &gt; Tambahkan ke layar utama</span>
     <button id="closeManualBanner" class="text-yellow-700 font-bold">✕</button>

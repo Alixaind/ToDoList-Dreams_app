@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ToDo Minimalist</title>
+  <title>ToDo DreamList</title>
   <meta name="theme-color" content="#0ea5a4" />
   <link rel="manifest" href="manifest.json" />
   <script src="https://cdn.tailwindcss.com"></script>
@@ -42,6 +42,10 @@
     }
     .custom-file-upload:hover {
         background-color: #e5e7eb; /* hover:bg-gray-300 */
+        
+        .delete-icons path{
+        fill : #FFFFFF;
+        }
   </style>
 </head>
 <body class="bg-gray-50 min-h-screen font-sans text-gray-800">
@@ -61,24 +65,25 @@
   <div class="max-w-5xl mx-auto p-4 sm:p-6">
     <header class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-3">
       <div>
-        <h1 class="text-2xl md:text-3xl font-extrabold">ToDo Minimalist</h1>
-        <p class="text-sm text-gray-500">Tambah judul, harga & foto — simple, modern, offline-ready</p>
+        <h1 class="text-2xl md:text-3xl font-extrabold">ToDo DreamList</h1>
+        <p class="text-l text-gray-500">Catat Impianmu, Sortir Harapanmu, Wujudkan Hasratmu</p>
+        <p class="text-sm text-gray-500">Aplikasi simpel untuk merealisasikan <b>WISTLIST-mu</b></p>
       </div>
     </header>
 
     <main class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <!-- form -->
       <section class="md:col-span-1 card p-4 rounded-xl shadow">
-        <h2 class="font-semibold mb-3">Tambah Item</h2>
+        <h2 class="font-semibold mb-3">Tambah Keinginan</h2>
         <form id="itemForm" class="space-y-3">
           <div>
-            <label class="text-sm text-gray-600">Judul</label>
+            <label class="text-sm text-gray-600">Keinginan</label>
             <input id="title" class="w-full mt-1 p-2 border rounded focus:ring-2 focus:ring-teal-400 focus:outline-none" placeholder="Mie Ayam" required />
           </div>
 
           <div>
             <label class="text-sm text-gray-600">Harga</label>
-            <input id="price" type="text" inputmode="numeric" class="w-full mt-1 p-2 border rounded focus:ring-2 focus:ring-teal-400 focus:outline-none" placeholder="Rp. 50.000" />
+            <input id="price" type="text" inputmode="numeric" class="w-full mt-1 p-2 border rounded focus:ring-2 focus:ring-teal-400 focus:outline-none" placeholder="Rp. 15.000" />
           </div>
 
           <div>
@@ -92,7 +97,7 @@
     </button>
 
     <div id="priority-menu" class="hidden absolute mt-2 w-full bg-white border rounded-md shadow-lg z-20">
-      <button type="button" data-value="normal" class="priority-option block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Biasa</button>
+      <button type="button" data-value="normal" class="priority-option block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Belum terlalu butuh</button>
       <button type="button" data-value="important" class="priority-option block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Penting</button>
       <button type="button" data-value="urgent" class="priority-option block w-full text-left px-4 py-2 text-sm hover:bg-gray-100">Realisasi dulu</button>
     </div>
@@ -109,8 +114,8 @@
           </div>
 
           <div class="flex gap-2">
-            <button type="submit" class="flex-1 bg-teal-500 text-white px-4 py-2 rounded hover:bg-teal-600">Tambah</button>
-            <button id="clearBtn" type="button" class="px-4 py-2 border rounded hover:bg-gray-100">Bersihkan</button>
+            <button type="submit" class="flex-1 bg-teal-500 text-white px-4 py-2 rounded hover:bg-teal-600">Tambah Keinginan</button>
+            <button id="clearBtn" type="button" class="px-4 py-2 border rounded hover:bg-gray-100">Bersihkan catatan</button>
           </div>
         </form>
       </section>
@@ -119,10 +124,24 @@
       <section class="md:col-span-2">
         <!-- filter/grid/export -->
         <div class="flex justify-end mb-3 gap-2 items-center relative">
+
+<button id="syncBtn" class="p-2 border rounded-lg hover:bg-gray-100">
+    <!-- ikon sinkronisasi -->
+<svg version="1.1" id="Uploaded to svgrepo.com" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+	  class="h-6 w-6" viewBox="0 0 32 32" xml:space="preserve">
+<style type="text/css">
+	.linesandangles_een{fill:#111918;}
+</style>
+<path class="linesandangles_een" d="M20.95,20.949l1.414,1.414C20.665,24.063,18.404,25,16,25c-4.962,0-9-4.037-9-9v-0.586
+	l-2.293,2.293l-1.414-1.414L8,11.586l4.707,4.707l-1.414,1.414L9,15.414V16c0,3.859,3.14,7,7,7C17.87,23,19.628,22.271,20.95,20.949
+	z M27.293,14.293L25,16.586V16c0-4.963-4.038-9-9-9c-2.404,0-4.665,0.937-6.364,2.637l1.414,1.414C12.372,9.729,14.13,9,16,9
+	c3.86,0,7,3.141,7,7v0.586l-2.293-2.293l-1.414,1.414L24,20.414l4.707-4.707L27.293,14.293z"/>
+</svg>
+  </button>
           <!-- tombol filter -->
           <div class="relative">
             <button id="filterBtn" class="p-2 border rounded-lg hover:bg-gray-100">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h18M6 8h12M9 12h6m-3 4h0"/>
               </svg>
             </button>
@@ -136,43 +155,114 @@
 
           <!-- tombol grid -->
           <button id="toggleView" class="p-2 border rounded-lg hover:bg-gray-100" title="Grid/List">
-            <svg id="gridIcon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-view="list">
+            <svg id="gridIcon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" data-view="list">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
             </svg>
           </button>
-          <button id="exportBtn" class="p-2 border rounded-lg text-sm bg-teal-500 text-white hover:bg-teal-600">TXT</button>
+          <button id="exportBtn" class="p-2 border rounded-lg text-sm bg-teal-500 text-white hover:bg-teal-600 flex items-center gap-1">
+          		<svg class="h-5 w-5" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<style>.cls-1{fill:#101010;}</style>
+</defs>
+<title/>
+<g id="xxx-word">
+<path class="cls-1" d="M325,105H250a5,5,0,0,1-5-5V25a5,5,0,1,1,10,0V95h70a5,5,0,0,1,0,10Z"/>
+<path class="cls-1" d="M325,154.83a5,5,0,0,1-5-5V102.07L247.93,30H100A20,20,0,0,0,80,50v98.17a5,5,0,0,1-10,0V50a30,30,0,0,1,30-30H250a5,5,0,0,1,3.54,1.46l75,75A5,5,0,0,1,330,100v49.83A5,5,0,0,1,325,154.83Z"/>
+<path class="cls-1" d="M300,380H100a30,30,0,0,1-30-30V275a5,5,0,0,1,10,0v75a20,20,0,0,0,20,20H300a20,20,0,0,0,20-20V275a5,5,0,0,1,10,0v75A30,30,0,0,1,300,380Z"/>
+<path class="cls-1" d="M275,280H125a5,5,0,0,1,0-10H275a5,5,0,0,1,0,10Z"/>
+<path class="cls-1" d="M200,330H125a5,5,0,0,1,0-10h75a5,5,0,1,1,0,10Z"/>
+<path class="cls-1" d="M325,280H75a30,30,0,0,1-30-30V173.17a30,30,0,0,1,30.19-30l250,1.66a30.09,30.09,0,0,1,29.81,30V250A30,30,0,0,1,325,280ZM75,153.17a20,20,0,0,0-20,20V250a20,20,0,0,0,20,20H325a20,20,0,0,0,20-20V174.83a20.06,20.06,0,0,0-19.88-20l-250-1.66Z"/>
+<path class="cls-1" d="M163.16,236H152.85V190.92H138.67v-8.24h38.67v8.24H163.16Z"/>
+<path class="cls-1" d="M222.23,236H211l-11.8-21-12.5,21h-8.95l16.88-27.77-14.49-25.55h11.17l9.84,17.73,10.43-17.73h9L205.74,207Z"/>
+<path class="cls-1" d="M247.15,236H236.84V190.92H222.66v-8.24h38.67v8.24H247.15Z"/>
+</g>
+</svg>
+          	</button>
         </div>
 
         <div class="card p-4 rounded-xl shadow">
-          <h2 class="font-semibold mb-3">Daftar</h2>
+          <h2 class="font-semibold mb-3">Daftar Keinginan</h2>
           <ul id="list" class="grid gap-3"></ul>
           <div class="mt-4 flex gap-2">
-            <button id="clearAll" class="px-3 py-2 border rounded text-sm text-red-600 hover:bg-red-50">Hapus Semua</button>
+            <button id="clearAll" class="px-3 py-2 border rounded text-sm text-red-600 hover:bg-red-50 flex items-center gap-1">
+            	<svg class="h-5 w-5" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+	 viewBox="0 0 512 512"  xml:space="preserve">
+<style type="text/css">
+	.st0{fill#D80B43;}
+</style>
+<g>
+	<path class="st0" d="M99.381,465.993c1.472,25.31,23.409,46.007,48.75,46.007h57.158c25.342,0,66.821,0,92.162,0h57.158
+		c25.342,0,47.285-20.697,48.758-46.007l16.785-289.586H82.589L99.381,465.993z"/>
+	<path class="st0" d="M427.011,107.022c-4.653-3.132-45.696-27.507-110.772-46.03c0.062-0.304,0.125-0.585,0.188-0.881
+		c5.189-27.507-12.897-54.017-40.396-59.222c-27.516-5.19-54.026,12.88-59.231,40.396c-0.054,0.28-0.094,0.576-0.14,0.88
+		c-67.351-6.506-114.487,1.192-119.95,2.408c-9.53,2.119-11.751,6.92-13.177,14.478c-0.958,5.05-6.202,32.791-6.202,32.791
+		l350.484,66.252c0,0,5.245-27.741,6.204-32.79C435.441,117.745,435.129,112.47,427.011,107.022z M288.303,53.816
+		c-6.951-1.59-14.08-3.102-21.437-4.489c-7.348-1.403-14.54-2.587-21.593-3.631c2.688-11.361,13.832-18.718,25.411-16.543
+		C282.264,31.357,289.947,42.267,288.303,53.816z"/>
+</g>
+</svg>Hapus Semua keinginan</button>
             <div class="ml-auto text-sm text-gray-500" id="count">0 item</div>
           </div>
+          <div class="mt-4 pt-4 border-t border-gray-200">
+              <div class="flex justify-between text-sm text-gray-700">
+                  <span>Total Belum Direalisasikan:</span>
+                  <span id="unrealizedTotal" class="font-semibold">Rp. 0</span>
+              </div>
+              <div class="flex justify-between text-sm text-gray-700">
+                  <span>Total Sudah Direalisasikan:</span>
+                  <span id="realizedTotal" class="font-semibold">Rp. 0</span>
+              </div>
+              <div class="flex justify-between font-bold text-gray-800 mt-2">
+                  <span>Total Keseluruhan:</span>
+                  <span id="grandTotal">Rp. 0</span>
+              </div>
+          </div>
         </div>
+        
       </section>
     </main>
 
-    <footer class="text-center text-xs text-gray-400 mt-6">Made minimalist • Works offline • PWA-ready</footer>
+    <footer class="text-center text-xs text-gray-400 mt-6">Made minimalist • Made by Dani Riyadi • official release • App v1.0</footer>
   </div>
 
   <div id="confirm-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
     <div class="bg-white p-6 rounded-lg shadow-xl w-full max-w-sm">
       <h3 class="text-lg font-bold text-gray-800">Konfirmasi</h3>
-      <p class="mt-2 text-sm text-gray-600">Anda yakin ingin menghapus semua item? Tindakan ini tidak dapat dibatalkan.</p>
+      <p class="mt-2 text-sm text-gray-600">Anda yakin ingin menghapus semua keinginan? Tindakan ini tidak dapat dibatalkan.</p>
       <div class="mt-6 flex justify-end gap-3">
         <button id="cancel-btn" class="px-4 py-2 border rounded text-sm font-medium hover:bg-gray-100">
           Batal
         </button>
-        <button id="confirm-delete-btn" class="px-4 py-2 bg-red-600 text-white rounded text-sm font-medium hover:bg-red-700">
-          Ya, Hapus
+        <button id="confirm-delete-btn" class="px-4 py-2 bg-red-600 text-white rounded text-sm font-medium hover:bg-red-700 flex items-center gap-1">
+        	<svg class="h-5 w-5 delete-icons" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"viewBox="0 0 512 512"  xml:space="preserve">
+	<g>
+	<path class="st0" d="M142.98,79.478c21.942,0,39.734-17.793,39.734-39.743C182.714,17.784,164.922,0,142.98,0
+		c-21.95,0-39.742,17.784-39.742,39.734C103.238,61.685,121.03,79.478,142.98,79.478z"/>
+	<path class="st0" d="M333.96,217.046c0-8.54-6.93-15.47-15.469-15.47l-64.324-4.149l-26.174-42.315
+		c-24.232-37.702-41.278-51.162-82.324-52.398c-28.199-0.847-85.518,8.415-90.008,63.17l-4.456,125.103
+		c-0.406,8.54,6.174,15.785,14.714,16.191c8.531,0.407,15.767-6.182,16.174-14.713l7.303-79.461l7.95,278.838
+		c0,11.137,9.02,20.157,20.158,20.157c11.129,0,20.166-9.02,20.166-20.157l8-164.88l8.008,164.88
+		c0,11.137,9.02,20.157,20.158,20.157c11.136,0,20.158-9.02,20.158-20.157l7.958-287.594l22.249,20.092
+		c1.718,1.867,3.535,3.46,5.378,4.854c3.485,4.167,8.722,6.822,14.572,6.822l74.34-3.51
+		C327.03,232.507,333.96,225.585,333.96,217.046z"/>
+	<path class="st0" d="M346.474,431.619c-6.946,0-12.572,5.627-12.572,12.564s5.626,12.564,12.572,12.564
+		c6.938,0,12.564-5.626,12.564-12.564S353.412,431.619,346.474,431.619z"/>
+	<path class="st0" d="M393.138,415.47c6.946,0,12.573-5.635,12.573-12.564c0-6.946-5.627-12.581-12.573-12.581
+		c-6.929,0-12.564,5.635-12.564,12.581C380.573,409.834,386.208,415.47,393.138,415.47z"/>
+	<path class="st0" d="M344.225,386.631c5.643,0,10.207-4.572,10.207-10.215c0-5.635-4.564-10.208-10.207-10.208
+		c-5.635,0-10.208,4.573-10.208,10.208C334.018,382.058,338.59,386.631,344.225,386.631z"/>
+	<path class="st0" d="M348.267,293.394c6.938,0,12.564-5.627,12.564-12.564c0-6.946-5.626-12.572-12.564-12.572
+		s-12.565,5.626-12.565,12.572C335.702,287.768,341.329,293.394,348.267,293.394z"/>
+	<polygon class="st0" points="436.283,313.138 410.64,476.282 325.204,476.282 299.552,313.138 275.022,313.138 304.482,500.515 
+		431.362,500.515 460.814,313.138 	"/>
+</g>
+</svg>Ya, Hapus keinginan 
         </button>
       </div>
     </div>
   </div>
 
-  <script>
+  <script type="module">
     let todos = JSON.parse(localStorage.getItem('todos') || '[]');
     const listEl = document.getElementById('list');
     const photoInput = document.getElementById('photo');
@@ -190,6 +280,179 @@
       let value = e.target.value.replace(/[^0-9]/g, "");
       e.target.value = value ? formatRupiah(value) : "";
     });
+    
+    
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+   import { getFirestore, collection, addDoc, setDoc, doc, deleteDoc, updateDoc, onSnapshot, writeBatch } 
+    from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL }
+    from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } 
+    from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+  // 🔑 Config Firebase project kamu
+  // Import the functions you need from the SDKs you need
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyD0u0TFiVmSK0_xI7-QUDEs0d9P69HpNcc",
+    authDomain: "todo-dreamlist.firebaseapp.com",
+    projectId: "todo-dreamlist",
+    storageBucket: "todo-dreamlist.firebasestorage.app",
+    messagingSenderId: "861624356527",
+    appId: "1:861624356527:web:016629ae20f83d0053ce5a",
+    measurementId: "G-0Z0LQSVF91"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const db = getFirestore(app);
+  const auth = getAuth(app);
+  const provider = new GoogleAuthProvider();
+  const storage = getStorage(app);
+
+  let user = null;
+  let todosRef = null;
+
+  
+  // Tombol sinkronisasi
+document.getElementById("syncBtn").onclick = async () => {
+  if (!auth.currentUser) {
+    // Kalau belum login → login dulu
+    try {
+      const result = await signInWithPopup(auth, provider);
+      user = result.user;
+      todosRef = collection(db, "users", user.uid, "todos");
+      startSync();
+      await syncToFirestore();
+      console.log("Login + Sinkronisasi berhasil:", user.email);
+    } catch (e) {
+      console.error("Login gagal", e);
+    }
+  } else {
+    // Kalau sudah login → langsung sinkronisasi
+    user = auth.currentUser;
+    todosRef = collection(db, "users", user.uid, "todos");
+    await syncToFirestore();
+    console.log("Sinkronisasi selesai");
+  }
+};
+
+// Upload data lokal → Firestore
+async function syncToFirestore() {
+  if (user && todosRef) {
+    for (const t of todos) {
+      if (!t.id) {
+        const docRef = await addDoc(todosRef, t);
+        t.id = docRef.id;
+      } else {
+        await setDoc(doc(todosRef, t.id), t);
+      }
+    }
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }
+}
+
+async function uploadPhoto(file) {
+  const storageRef = ref(storage, 'photos/' + Date.now() + '-' + file.name);
+  await uploadBytes(storageRef, file);
+  return await getDownloadURL(storageRef);
+}
+
+
+  // Sinkronisasi realtime dengan Firestore
+  function startSync() {
+    if (!user) return;
+    onSnapshot(todosRef, (snapshot) => {
+      todos = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+      localStorage.setItem("todos", JSON.stringify(todos)); // cache offline
+      render();
+    });
+  }
+  
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+onAuthStateChanged(auth, (u) => {
+  if (u) {
+    user = u;
+    todosRef = collection(db, "users", user.uid, "todos");
+    startSync();
+  }
+});
+
+  // Override save() biar nulis ke Firestore juga
+ async function save() {
+  localStorage.setItem("todos", JSON.stringify(todos));
+  render();
+  if (user && todosRef) {
+    for (const t of todos) {
+      if (!t.id) {
+        const docRef = await addDoc(todosRef, t);
+        t.id = docRef.id;
+      } else {
+        // ✅ update doc kalau sudah ada id
+        await setDoc(doc(todosRef, t.id), t, { merge: true });
+      }
+    }
+  }
+}
+
+  // Fungsi untuk menghapus item
+async function deleteItem(i) {
+  const removed = todos.splice(i, 1)[0];
+  if (user && removed.id) {
+    // Hapus dari Firebase
+    await deleteDoc(doc(todosRef, removed.id));
+  }
+  // Simpan perubahan lokal setelah penghapusan di Firebase
+  save(); 
+}
+
+// Fungsi untuk mengubah status selesai
+async function toggleDone(i) {
+  todos[i].done = !todos[i].done;
+  // Simpan perubahan ke Firebase melalui fungsi save()
+  save(); 
+}
+
+// Fungsi untuk mengubah prioritas
+async function updatePriority(i, newPriority) {
+  todos[i].priority = newPriority;
+  // Simpan perubahan ke Firebase melalui fungsi save()
+  save(); 
+}
+window.deleteItem = deleteItem;
+window.toggleDone = toggleDone;
+window.updatePriority = updatePriority;
+
+
+  
+  
+    // Fungsi untuk memperbarui total pengeluaran
+    function updateTotals() {
+        let unrealizedTotal = 0;
+        let realizedTotal = 0;
+        
+        todos.forEach(item => {
+            const price = Number(item.price) || 0;
+            if (item.done) {
+                realizedTotal += price;
+            } else {
+                unrealizedTotal += price;
+            }
+        });
+        
+        const grandTotal = unrealizedTotal + realizedTotal;
+        
+        document.getElementById('unrealizedTotal').textContent = `Rp. ${unrealizedTotal.toLocaleString('id-ID')}`;
+        document.getElementById('realizedTotal').textContent = `Rp. ${realizedTotal.toLocaleString('id-ID')}`;
+        document.getElementById('grandTotal').textContent = `Rp. ${grandTotal.toLocaleString('id-ID')}`;
+    }
     
     
     // --- SCRIPT UNTUK DROPDOWN PRIORITAS UTAMA ---
@@ -249,114 +512,112 @@ document.addEventListener('click', (e) => {
 
     // render list
     function render() {
-      listEl.innerHTML = '';
-      let items = [...todos];
+  listEl.innerHTML = '';
+  let items = [...todos];
 
-      // sorting
-      if (sortValue === "price") {
-        items.sort((a, b) => parseInt(a.price.replace(/[^0-9]/g,"")) - parseInt(b.price.replace(/[^0-9]/g,"")));
-      } else if (sortValue === "priority") {
-        const order = { urgent: 1, important: 2, normal: 3 };
-        items.sort((a, b) => {
-          const pa = order[a.priority] || 4;
-          const pb = order[b.priority] || 4;
-          if (pa === pb) {
-            return parseInt(a.price.replace(/[^0-9]/g,"")) - parseInt(b.price.replace(/[^0-9]/g,""));
-          }
-          return pa - pb;
-        });
-      } else if (sortValue === "alphabet") {
-        items.sort((a, b) => a.title.localeCompare(b.title, "id"));
-      } else if (sortValue === "time") {
-        items.sort((a, b) => b.timestamp - a.timestamp);
-      }
+  // sorting
+  if (sortValue === "price") {
+    items.sort((a, b) => a.price - b.price);
+  } else if (sortValue === "priority") {
+    const order = { urgent: 1, important: 2, normal: 3 };
+    items.sort((a, b) => {
+      const pa = order[a.priority] || 4;
+      const pb = order[b.priority] || 4;
+      if (pa === pb) return a.price - b.price;
+      return pa - pb;
+    });
+  } else if (sortValue === "alphabet") {
+    items.sort((a, b) => a.title.localeCompare(b.title, "id"));
+  } else if (sortValue === "time") {
+    items.sort((a, b) => b.timestamp - a.timestamp);
+  }
 
-      items.forEach((t, i) => {
-        const li = document.createElement('li');
-        li.className = "p-3 border rounded-lg bg-white cursor-pointer flex flex-col";
+  items.forEach((t, i) => {
+    const li = document.createElement('li');
+    li.className = "p-3 border rounded-lg bg-white cursor-pointer flex flex-col";
 
-        let actionsHTML = "";
-        if (!isGrid) {
-          // list → tombol horizontal
-          actionsHTML = `
-            <div id="actions-${i}" class="hidden mt-3 pt-2 border-t flex justify-between gap-2">
-              <button onclick="toggleDone(${i})"
-                class="flex-1 px-3 py-2 rounded text-sm font-medium ${t.done ? 'bg-green-500 text-white' : 'border text-green-600'}">
-                ${t.done ? '✓ Terealisasikan' : 'Terealisasikan'}
-              </button>
-              <select onchange="updatePriority(${i}, this.value)"
-                class="flex-1 px-3 py-2 rounded text-sm font-medium border bg-white focus:ring-2 focus:ring-teal-400">
-                <option value="normal" ${t.priority==="normal" ? "selected" : ""}>Biasa</option>
-                <option value="important" ${t.priority==="important" ? "selected" : ""}>Penting</option>
-                <option value="urgent" ${t.priority==="urgent" ? "selected" : ""}>Realisasi dulu</option>
-              </select>
-              <button onclick="deleteItem(${i})"
-                class="flex-1 px-3 py-2 rounded text-sm font-medium border text-red-600 hover:bg-red-50">
-                Hapus
-              </button>
-            </div>`;
-        } else {
-          // grid → tombol vertikal, dorong card ke bawah
-          actionsHTML = `
-            <div id="actions-${i}" class="hidden mt-3 pt-2 border-t grid gap-2">
-              <button onclick="toggleDone(${i})"
-                class="w-full px-3 py-2 rounded text-sm font-medium ${t.done ? 'bg-green-500 text-white' : 'border text-green-600'}">
-                ${t.done ? '✓ Terealisasikan' : 'Terealisasikan'}
-              </button>
-              <select onchange="updatePriority(${i}, this.value)"
-                class="w-full px-3 py-2 rounded text-sm font-medium border bg-white focus:ring-2 focus:ring-teal-400">
-                <option value="normal" ${t.priority==="normal" ? "selected" : ""}>Biasa</option>
-                <option value="important" ${t.priority==="important" ? "selected" : ""}>Penting</option>
-                <option value="urgent" ${t.priority==="urgent" ? "selected" : ""}>Realisasi dulu</option>
-              </select>
-              <button onclick="deleteItem(${i})"
-                class="w-full px-3 py-2 rounded text-sm font-medium border text-red-600 hover:bg-red-50">
-                Hapus
-              </button>
-            </div>`;
-        }
-
-        li.innerHTML = `
-          <div class="flex items-start gap-3">
-            ${t.photo ? `<img src="${t.photo}" class="w-16 h-16 object-cover rounded border" />` : ""}
-            <div class="flex-1">
-              <div class="flex items-center gap-2">
-                <h3 class="font-semibold">${t.title}</h3>
-                ${t.priority === "important" ? `<span class="px-2 py-1 text-xs bg-yellow-100 text-yellow-700 rounded">Penting</span>` : ""}
-                ${t.priority === "urgent" ? `<span class="px-2 py-1 text-xs bg-green-100 text-green-700 rounded">Realisasi dulu</span>` : ""}
-              </div>
-              <p class="text-sm text-gray-600">${t.price}</p>
-              ${t.done ? `<span class="inline-block mt-1 text-xs px-2 py-1 bg-green-100 text-green-700 rounded">✓ Terealisasikan</span>` : ""}
-            </div>
-          </div>
-          ${actionsHTML}
-        `;
-
-        li.addEventListener("click", (e) => {
-          if (!e.target.closest("button") && !e.target.closest("select")) {
-            // tutup semua action lain
-            document.querySelectorAll("#list [id^='actions-']").forEach(el => {
-              if (el !== li.querySelector(`#actions-${i}`)) {
-                el.classList.add("hidden");
-              }
-            });
-            // toggle hanya item ini
-            const actionDiv = li.querySelector(`#actions-${i}`);
-            actionDiv.classList.toggle("hidden");
-          }
-        });
-
-        listEl.appendChild(li);
-      });
-
-      document.getElementById('count').textContent = `${items.length} item`;
+    let actionsHTML = "";
+    if (!isGrid) {
+      // list → tombol horizontal
+      actionsHTML = `
+        <div id="actions-${i}" class="hidden mt-3 pt-2 border-t flex justify-between gap-2">
+          <button onclick="toggleDone(${i})"
+            class="flex-1 px-3 py-2 rounded text-sm font-medium ${t.done ? 'bg-green-500 text-white' : 'border text-green-600'}">
+            ${t.done ? '✓ Terealisasikan' : 'Terealisasikan'}
+          </button>
+          <select onchange="updatePriority(${i}, this.value)"
+            class="flex-1 px-3 py-2 rounded text-sm font-medium border bg-white focus:ring-2 focus:ring-teal-400">
+            <option value="normal" ${t.priority==="normal" ? "selected" : ""}>Biasa</option>
+            <option value="important" ${t.priority==="important" ? "selected" : ""}>Penting</option>
+            <option value="urgent" ${t.priority==="urgent" ? "selected" : ""}>Realisasi dulu</option>
+          </select>
+          <button onclick="deleteItem(${i})"
+            class="flex-1 px-3 py-2 rounded text-sm font-medium border text-red-600 hover:bg-red-50">
+            Hapus
+          </button>
+        </div>`;
+    } else {
+      // grid → tombol vertikal
+      actionsHTML = `
+        <div id="actions-${i}" class="hidden mt-3 pt-2 border-t grid gap-2">
+          <button onclick="toggleDone(${i})"
+            class="w-full px-3 py-2 rounded text-sm font-medium ${t.done ? 'bg-green-500 text-white' : 'border text-green-600'}">
+            ${t.done ? '✓ Terealisasikan' : 'Terealisasikan'}
+          </button>
+          <select onchange="updatePriority(${i}, this.value)"
+            class="w-full px-3 py-2 rounded text-sm font-medium border bg-white focus:ring-2 focus:ring-teal-400">
+            <option value="normal" ${t.priority==="normal" ? "selected" : ""}>Biasa</option>
+            <option value="important" ${t.priority==="important" ? "selected" : ""}>Penting</option>
+            <option value="urgent" ${t.priority==="urgent" ? "selected" : ""}>Realisasi dulu</option>
+          </select>
+          <button onclick="deleteItem(${i})"
+            class="w-full px-3 py-2 rounded text-sm font-medium border text-red-600 hover:bg-red-50">
+            Hapus
+          </button>
+        </div>`;
     }
 
-    function save(){ localStorage.setItem('todos', JSON.stringify(todos)); render(); }
-    function toggleDone(i){ todos[i].done = !todos[i].done; save(); }
-    function updatePriority(i, val){ todos[i].priority = val; save(); }
-    function deleteItem(i){ todos.splice(i,1); save(); }
-    
+    li.innerHTML = `
+      <div class="flex items-start gap-3">
+        ${t.photo ? `<img src="${t.photo}" class="w-16 h-16 object-cover rounded border" />` : ""}
+        <div class="flex-1">
+          <div class="flex items-center gap-2">
+            <h3 class="font-semibold">${t.title}</h3>
+            ${t.priority === "important" ? `<span class="px-2 py-1 text-xs bg-yellow-100 text-yellow-700 rounded">Penting</span>` : ""}
+            ${t.priority === "urgent" ? `<span class="px-2 py-1 text-xs bg-green-100 text-green-700 rounded">Realisasi dulu</span>` : ""}
+          </div>
+          <p class="text-sm text-gray-600">
+            ${t.price.toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}
+          </p>
+          ${t.done ? `<span class="inline-block mt-1 text-xs px-2 py-1 bg-green-100 text-green-700 rounded">✓ Terealisasikan</span>` : ""}
+        </div>
+      </div>
+      ${actionsHTML}
+    `;
+
+    li.addEventListener("click", (e) => {
+      if (!e.target.closest("button") && !e.target.closest("select")) {
+        // tutup semua action lain
+        document.querySelectorAll("#list [id^='actions-']").forEach(el => {
+          if (el !== li.querySelector(`#actions-${i}`)) {
+            el.classList.add("hidden");
+          }
+        });
+        // toggle hanya item ini
+        const actionDiv = li.querySelector(`#actions-${i}`);
+        actionDiv.classList.toggle("hidden");
+      }
+    });
+
+    listEl.appendChild(li);
+  });
+
+  document.getElementById('count').textContent = `${items.length} item`;
+
+  // ✅ update total setiap kali render
+  updateTotals();
+}
+      
     // --- SCRIPT UNTUK MODAL KONFIRMASI ---
 
 const confirmModal = document.getElementById('confirm-modal');
@@ -378,24 +639,66 @@ confirmModal.addEventListener('click', (e) => {
 });
 
 // Event listener untuk tombol "Ya, Hapus"
-confirmDeleteBtn.addEventListener('click', () => {
-  todos = []; // Kosongkan array todos
-  save();     // Simpan perubahan dan render ulang
-  closeModal(); // Tutup modal setelah selesai
+confirmDeleteBtn.addEventListener('click', async () => {
+  if (user && todosRef) {
+    const batch = writeBatch(db);
+    todos.forEach(item => {
+      if (item.id) {
+        batch.delete(doc(todosRef, item.id));
+      }
+    });
+    await batch.commit();
+  }
+  
+  todos = [];
+  save();
+  closeModal();
 });
 
+
     // form submit
-    document.getElementById('itemForm').onsubmit = e=>{
-      e.preventDefault();
-      const title = document.getElementById('title').value.trim();
-      const price = document.getElementById('price').value || "Rp 0";
-      const priority = document.getElementById('priority').value;
-      if(title){
-        todos.push({ title, price, priority, done:false, photo: photoPreview.src || '', timestamp: Date.now() });
-        e.target.reset(); photoPreview.classList.add('hidden'); photoPreview.src='';
-        save();
-      }
-    };
+  document.getElementById('itemForm').onsubmit = async (e) => {
+  e.preventDefault();
+  const title = document.getElementById('title').value.trim();
+ const rawPrice = parseInt(document.getElementById('price').value.replace(/[^0-9]/g, "")) || 0;
+ const priority = document.getElementById('priority').value;
+
+  let photoURL = "";
+  if (photoInput.files[0]) {
+    photoURL = await uploadPhotoToCloudinary(photoInput.files[0]);
+  }
+
+  if (title) {
+    todos.push({ 
+  title, 
+  price: rawPrice,   // simpan angka
+  priority, 
+  done: false, 
+  photo: photoURL, 
+  timestamp: Date.now() 
+});
+
+    e.target.reset(); 
+    photoPreview.classList.add('hidden'); 
+    photoPreview.src = '';
+    save();
+  }
+};
+
+async function uploadPhotoToCloudinary(file) {
+  const url = `https://api.cloudinary.com/v1_1/dpu88eprx/image/upload`;
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", "Todobucket"); // dari step 2
+
+  const res = await fetch(url, {
+    method: "POST",
+    body: formData
+  });
+
+  const data = await res.json();
+  return data.secure_url; // URL gambar di Cloudinary
+}
 
     document.getElementById('clearBtn').onclick=()=>{
       document.getElementById('itemForm').reset();

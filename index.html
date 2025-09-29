@@ -43,8 +43,8 @@
     .custom-file-upload:hover {
         background-color: #e5e7eb; /* hover:bg-gray-300 */
         
-        .delete-icons path{
-        fill : #ffffff;
+        .spann {
+        fill : #A6B8B8
         }
   </style>
 </head>
@@ -83,7 +83,7 @@
 
           <div>
             <label class="text-sm text-gray-600">Harga</label>
-            <input id="price" type="text" inputmode="numeric" class="w-full mt-1 p-2 border rounded focus:ring-2 focus:ring-teal-400 focus:outline-none" placeholder="Rp. 15.000" />
+            <input id="price" type="text" inputmode="numeric" class="w-full mt-1 p-2 border rounded focus:ring-2 focus:ring-teal-400 focus:outline-none" placeholder="Rp. 15.000" required/>
           </div>
 
           <div>
@@ -92,7 +92,7 @@
     <input type="hidden" id="priority" value="normal">
 
     <button type="button" id="priority-btn" class="w-full flex items-center justify-between text-left p-2 border rounded bg-white focus:ring-2 focus:ring-teal-400 focus:outline-none">
-      <span id="priority-label">Biasa</span>
+      <span id="priority-label" class="text-sm text-gray-900" >Pilih Tipe Prioritas Keinginan</span>
       <svg class="h-5 w-5 text-gray-400 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
     </button>
 
@@ -185,11 +185,8 @@
           <ul id="list" class="grid gap-3"></ul>
           <div class="mt-4 flex gap-2">
             <button id="clearAll" class="px-3 py-2 border rounded text-sm text-red-600 hover:bg-red-50 flex items-center gap-1">
-            	<svg class="h-5 w-5" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+            	<svg class="h-5 w-5 fill-current" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
 	 viewBox="0 0 512 512"  xml:space="preserve">
-<style type="text/css">
-	.st0{fill#D80B43;}
-</style>
 <g>
 	<path class="st0" d="M99.381,465.993c1.472,25.31,23.409,46.007,48.75,46.007h57.158c25.342,0,66.821,0,92.162,0h57.158
 		c25.342,0,47.285-20.697,48.758-46.007l16.785-289.586H82.589L99.381,465.993z"/>
@@ -234,7 +231,7 @@
           Batal
         </button>
         <button id="confirm-delete-btn" class="px-4 py-2 bg-red-600 text-white rounded text-sm font-medium hover:bg-red-700 flex items-center gap-1">
-        	<svg class="h-5 w-5 delete-icons" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"viewBox="0 0 512 512"  xml:space="preserve">
+        	<svg class="h-5 w-5 fill-current" version="1.1" id="_x32_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"viewBox="0 0 512 512"  xml:space="preserve">
 	<g>
 	<path class="st0" d="M142.98,79.478c21.942,0,39.734-17.793,39.734-39.743C182.714,17.784,164.922,0,142.98,0
 		c-21.95,0-39.742,17.784-39.742,39.734C103.238,61.685,121.03,79.478,142.98,79.478z"/>
@@ -546,14 +543,13 @@ document.addEventListener('click', (e) => {
             ${t.done ? '✓ Terealisasikan' : 'Terealisasikan'}
           </button>
           <select onchange="updatePriority(${i}, this.value)"
-            class="flex-1 px-3 py-2 rounded text-sm font-medium border bg-white focus:ring-2 focus:ring-teal-400">
+            class="flex-1 px-3 py-2 rounded text-sm font-medium border text-yellow-600 bg-white focus:ring-2 focus:ring-teal-400 focus:outline-none">
             <option value="normal" ${t.priority==="normal" ? "selected" : ""}>Biasa</option>
             <option value="important" ${t.priority==="important" ? "selected" : ""}>Penting</option>
             <option value="urgent" ${t.priority==="urgent" ? "selected" : ""}>Realisasi dulu</option>
           </select>
           <button onclick="deleteItem(${i})"
-            class="flex-1 px-3 py-2 rounded text-sm font-medium border text-red-600 hover:bg-red-50">
-            Hapus
+            class="flex-1 px-3 py-2 rounded text-sm font-medium border text-red-600 hover:bg-red-50 ">Hapus
           </button>
         </div>`;
     } else {
@@ -565,14 +561,13 @@ document.addEventListener('click', (e) => {
             ${t.done ? '✓ Terealisasikan' : 'Terealisasikan'}
           </button>
           <select onchange="updatePriority(${i}, this.value)"
-            class="w-full px-3 py-2 rounded text-sm font-medium border bg-white focus:ring-2 focus:ring-teal-400">
+            class="w-full px-3 py-2 rounded text-sm font-medium border text-yellow-600bg-white focus:ring-2 focus:ring-teal-400 focus:outline-none">
             <option value="normal" ${t.priority==="normal" ? "selected" : ""}>Biasa</option>
             <option value="important" ${t.priority==="important" ? "selected" : ""}>Penting</option>
             <option value="urgent" ${t.priority==="urgent" ? "selected" : ""}>Realisasi dulu</option>
           </select>
           <button onclick="deleteItem(${i})"
-            class="w-full px-3 py-2 rounded text-sm font-medium border text-red-600 hover:bg-red-50">
-            Hapus
+            class="w-full px-3 py-2 rounded text-sm font-medium border text-red-600 hover:bg-red-50"> Hapus
           </button>
         </div>`;
     }

@@ -1,6 +1,6 @@
 {
-  "name": "ToDo-Dream's List",
-  "short_name": "ToDo-Dream's List",
+  "name": "ToDo-Dreams List",
+  "short_name": "ToDo-Dreams List",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

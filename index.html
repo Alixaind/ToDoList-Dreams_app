@@ -27,17 +27,13 @@
   /* CSS untuk animasi scrolling */
   @keyframes scrollUp {
     0% { transform: translateY(0); }
-    33% { transform: translateY(-100%); }
-    66% { transform: translateY(-200%); }
-    100% { transform: translateY(0); }
-  }
-
-  #scrolling-text-container {
-    width: 250px; /* Atur lebar sesuai kebutuhan */
+    33% { transform: translateY(-33.33%); }
+    66% { transform: translateY(-66.66%); }
+    100% { transform: translateY(-100%); } /* Tambahkan ini agar kembali ke atas */
   }
 
   #scrolling-text {
-    animation: scrollUp 15s infinite ease-out;
+    animation: scrollUp 10s infinite ease-in-out;
   }
      /* Menyembunyikan input file asli */
     #photo {
@@ -68,17 +64,18 @@
 	<div id="installBanner" class="hidden bg-green-100 border border-green-300 p-3 flex justify-between items-center fade-in-up overflow-hidden">
   <div class="flex items-center gap-3">
     <img src="icon-512.png" alt="Install App" class="w-10 h-10 rounded-full border border-green-800">
-    <div id="scrolling-text-container" class="relative h-6 overflow-hidden">
+    
+    <div id="scrolling-text-container" class="relative h-20 overflow-hidden">
       <div id="scrolling-text" class="absolute inset-0">
         <p class="text-sm font-semibold">ToDo DreamList</p>
-        <p class="text-sm font-semibold mt-6">Install App Untuk Akses Lebih Cepat</p>
-        <p class="text-sm font-semibold mt-6">Tenang saja instalasi tidak akan memakan memori penyimpanan</p>
+        <p class="text-sm font-semibold">Install App Untuk Akses Lebih Cepat</p>
+        <p class="text-sm font-semibold">Tenang saja instalasi tidak akan memakan memori penyimpanan</p>
       </div>
     </div>
   </div>
 
   <div class="flex gap-2">
-    <button id="installBtn" class="bg-green-500 text-white text-xs px-3 py-1 rounded">Install di layar utama</button>
+    <button id="installBtn" class="bg-green-500 text-white text-xs px-3 py-1 rounded">Install App</button>
     <button id="closeBanner" class="text-green-700 font-bold">✕</button>
   </div>
 </div>

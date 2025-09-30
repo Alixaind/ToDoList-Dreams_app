@@ -21,20 +21,24 @@
       }
     }
     .fade-in-up {
-      animation: fadeInUp 0.9s ease-out;
+      animation: fadeInUp 0.7s ease-out;
     }
     
   /* CSS untuk animasi scrolling */
   @keyframes scrollUp {
-    0% { transform: translateY(0); }
-    33% { transform: translateY(-33.33%); }
-    66% { transform: translateY(-66.66%); }
-    100% { transform: translateY(-100%); } /* Tambahkan ini agar kembali ke atas */
-  }
+  0%   { transform: translateY(0); }
+  25%  { transform: translateY(-33.33%); }
+  50%  { transform: translateY(-66.66%); }
+  75%  { transform: translateY(-100%); }
+  100% { transform: translateY(0); } /* balik lagi */
+}
 
   #scrolling-text {
-    animation: scrollUp 10s infinite ease-in-out;
-  }
+  position: relative;          /* bukan absolute */
+  display: flex;
+  flex-direction: column;
+  animation: scrollUp 10s infinite linear;
+}
      /* Menyembunyikan input file asli */
     #photo {
         display: none;
@@ -55,9 +59,6 @@
     .custom-file-upload:hover {
         background-color: #e5e7eb; /* hover:bg-gray-300 */
         
-        .spann {
-        fill : #A6B8B8
-        }
   </style>
 </head>
 <body class="bg-gray-50 min-h-screen font-sans text-gray-800">
